@@ -1,0 +1,21 @@
+{
+  "domain": "jarvis_voice",
+  "name": "Jarvis Voice",
+  "after_dependencies": [
+    "alexa_devices"
+  ],
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": [
+    "assist_pipeline",
+    "conversation",
+    "http"
+  ],
+  "documentation": "https://github.com/mpolonioli/alexa_assist",
+  "integration_type": "service",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/mpolonioli/alexa_assist/issues",
+  "requirements": [],
+  "single_config_entry": true,
+  "version": "0.3.0-jarvis"
+}

@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Jarvis Voice",
+        "description": "Lets Echo devices talk to a Home Assistant assistant through an Alexa custom skill, so Alexa handles the wake word and the speech and Home Assistant answers. Point the skill's HTTPS endpoint at {endpoint} on your external URL. Alexa allows about 8 seconds per answer: slower ones are announced on the Echo that asked.",
+        "data": {
+          "skill_id": "Skill ID",
+          "assistant": "Assistant",
+          "launch_sound": "Ready sound",
+          "deadline": "Answer deadline",
+          "remember": "Remember between invocations",
+          "announce_late": "Announce late answers on the Echo",
+          "verify_signature": "Verify Amazon's signature"
+        },
+        "data_description": {
+          "skill_id": "From the Alexa developer console, like amzn1.ask.skill.0000. Requests for any other skill are refused.",
+          "assistant": "The assistant that answers Alexa, from Settings > Voice assistants. Its conversation agent, language and \"Prefer handling commands locally\" all apply, and every question shows in its debug view. Alexa does the speech, so its speech-to-text and text-to-speech are not used.",
+          "launch_sound": "Played instead of a spoken greeting when you open the skill, so you can start talking sooner. Pick one of Amazon's sound library URIs, paste any other soundbank:// or https:// MP3, or clear the field to hear a spoken greeting instead.",
+          "deadline": "How long to wait before answering that the reply will follow. Keep it below 8 seconds, the limit Alexa gives a skill.",
+          "remember": "Keeps one conversation per Echo, so asking again within five minutes can refer back to the last answer (\"and tomorrow?\"). Home Assistant forgets the thread after five idle minutes. Switch this off to start every invocation empty.",
+          "announce_late": "Speaks an answer that missed the deadline on the Echo that asked. Needs the Amazon Devices integration, and the Echo has to carry the Alexa device id as a label.",
+          "verify_signature": "Checks that requests really come from Amazon. Only turn this off to debug, the endpoint has no other protection."
+        }
+      }
+    },
+    "error": {
+      "skill_id_required": "The skill ID is required: requests for any other skill are refused.",
+      "sound_invalid": "The sound must be a soundbank:// URI from Amazon's sound library, or an https:// MP3."
+    },
+    "abort": {
+      "single_instance_allowed": "Jarvis Voice is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Jarvis Voice",
+        "description": "The skill's HTTPS endpoint is {endpoint} on your external URL. Changes apply immediately.",
+        "data": {
+          "skill_id": "Skill ID",
+          "assistant": "Assistant",
+          "launch_sound": "Ready sound",
+          "deadline": "Answer deadline",
+          "remember": "Remember between invocations",
+          "announce_late": "Announce late answers on the Echo",
+          "verify_signature": "Verify Amazon's signature"
+        },
+        "data_description": {
+          "skill_id": "From the Alexa developer console, like amzn1.ask.skill.0000. Requests for any other skill are refused.",
+          "assistant": "The assistant that answers Alexa, from Settings > Voice assistants. Its conversation agent, language and \"Prefer handling commands locally\" all apply, and every question shows in its debug view. Alexa does the speech, so its speech-to-text and text-to-speech are not used.",
+          "launch_sound": "Played instead of a spoken greeting when you open the skill, so you can start talking sooner. Pick one of Amazon's sound library URIs, paste any other soundbank:// or https:// MP3, or clear the field to hear a spoken greeting instead.",
+          "deadline": "How long to wait before answering that the reply will follow. Keep it below 8 seconds, the limit Alexa gives a skill.",
+          "remember": "Keeps one conversation per Echo, so asking again within five minutes can refer back to the last answer (\"and tomorrow?\"). Home Assistant forgets the thread after five idle minutes. Switch this off to start every invocation empty.",
+          "announce_late": "Speaks an answer that missed the deadline on the Echo that asked. Needs the Amazon Devices integration, and the Echo has to carry the Alexa device id as a label.",
+          "verify_signature": "Checks that requests really come from Amazon. Only turn this off to debug, the endpoint has no other protection."
+        }
+      }
+    },
+    "error": {
+      "skill_id_required": "The skill ID is required: requests for any other skill are refused.",
+      "sound_invalid": "The sound must be a soundbank:// URI from Amazon's sound library, or an https:// MP3."
+    }
+  }
+}

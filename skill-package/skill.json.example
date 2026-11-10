@@ -1,0 +1,55 @@
+{
+  "manifest": {
+    "manifestVersion": "1.0",
+    "publishingInformation": {
+      "locales": {
+        "de-DE": {
+          "name": "Haus Jarvis",
+          "summary": "Sprich mit Jarvis, dem Assistenten deines Hauses.",
+          "description": "Leitet das Gesagte an den Home-Assistant-Assistenten weiter und liest die Antwort vor. Privater Skill für den Eigengebrauch.",
+          "examplePhrases": [
+            "Alexa, öffne Haus Jarvis",
+            "Alexa, frag Haus Jarvis wie warm es im Wohnzimmer ist",
+            "Alexa, sag Haus Jarvis er soll das Licht in der Küche ausmachen"
+          ],
+          "keywords": [
+            "haus",
+            "assistent",
+            "jarvis"
+          ]
+        }
+      },
+      "isAvailableWorldwide": false,
+      "distributionCountries": [
+        "DE"
+      ],
+      "category": "SMART_HOME",
+      "testingInstructions": "Privater Skill, wird nicht zur Zertifizierung eingereicht."
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "https://REPLACE-WITH-YOUR-EXTERNAL-URL/api/jarvis_voice/alexa",
+          "sslCertificateType": "Wildcard"
+        }
+      }
+    },
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "containsAds": false,
+      "isExportCompliant": true,
+      "isChildDirected": false,
+      "locales": {
+        "de-DE": {
+          "privacyPolicyUrl": "https://REPLACE-WITH-YOUR-PRIVACY-PAGE"
+        }
+      }
+    },
+    "permissions": [
+      {
+        "name": "alexa::person_id:read"
+      }
+    ]
+  }
+}

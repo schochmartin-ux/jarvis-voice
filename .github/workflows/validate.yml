@@ -1,0 +1,33 @@
+name: Validate
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  hassfest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+
+  hacs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hacs/action@main
+        with:
+          category: integration
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv venv --python 3.14
+      - run: uv pip install pytest-homeassistant-custom-component==0.13.371 hassil==3.12.1 home-assistant-intents==2026.10.6 gazetteer-matcher==1.1.0 mutagen==1.48.1 ha-ffmpeg==3.2.2 pymicro-vad==1.0.1 pyspeex-noise==1.0.2 ruff
+      - run: uv run --no-project ruff check .
+      - run: uv run --no-project ruff format --check .
+      - run: uv run --no-project pytest

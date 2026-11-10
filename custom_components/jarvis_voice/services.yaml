@@ -1,0 +1,137 @@
+enroll_speaker:
+  name: Voice einer Person zuordnen
+  description: >-
+    Die nächste Stimme, die Alexa erkennt und noch niemandem gehört, wird dieser
+    Person zugeordnet. Danach sagt die Person einmal etwas zu Jarvis.
+  fields:
+    person:
+      name: Person
+      required: true
+      selector:
+        entity:
+          filter:
+            domain: person
+    minutes:
+      name: Wartezeit in Minuten
+      default: 30
+      selector:
+        number:
+          min: 1
+          max: 120
+forget_speaker:
+  name: Stimmen einer Person vergessen
+  fields:
+    person:
+      name: Person
+      required: true
+      selector:
+        entity:
+          filter:
+            domain: person
+set_address:
+  name: Anrede festlegen
+  description: Wie Jarvis die Person anspricht, zum Beispiel "Chef". Leer lassen entfernt die Anrede.
+  fields:
+    person:
+      name: Person
+      required: true
+      selector:
+        entity:
+          filter:
+            domain: person
+    address:
+      name: Anrede
+      selector:
+        text:
+set_trusted:
+  name: Vertrauen für Türen und Tore
+  description: Erlaubt einer Person, Türen und Tore per Sprache zu öffnen.
+  fields:
+    person:
+      name: Person
+      required: true
+      selector:
+        entity:
+          filter:
+            domain: person
+    trusted:
+      name: Vertraut
+      required: true
+      selector:
+        boolean:
+list_voices:
+  name: Zugeordnete Stimmen anzeigen
+remember:
+  name: Notiz vorschlagen (mit Rückfrage)
+  description: >-
+    Wird vom Assistenten aufgerufen. Speichert nichts, sondern merkt die Notiz vor.
+    Sie wird erst gespeichert, wenn die Person danach "Ja" sagt.
+  fields:
+    text:
+      name: Notiz
+      required: true
+      selector:
+        text:
+    about:
+      name: Worüber (ich, haus oder ein Name)
+      selector:
+        text:
+    person:
+      name: Von wem
+      selector:
+        entity:
+          filter:
+            domain: person
+add_note:
+  name: Notiz sofort speichern
+  fields:
+    text:
+      name: Notiz
+      required: true
+      selector:
+        text:
+    about:
+      name: Worüber (ich, haus oder ein Name)
+      selector:
+        text:
+    person:
+      name: Von wem
+      selector:
+        entity:
+          filter:
+            domain: person
+forget_note:
+  name: Notizen vergessen
+  description: Löscht Notizen, die den Suchtext enthalten, sonst die neueste. Mit "all" alle.
+  fields:
+    match:
+      name: Suchtext
+      selector:
+        text:
+    all:
+      name: Alle löschen
+      selector:
+        boolean:
+    about:
+      name: Worüber (ich, haus oder ein Name)
+      selector:
+        text:
+    person:
+      name: Von wem
+      selector:
+        entity:
+          filter:
+            domain: person
+list_notes:
+  name: Notizen anzeigen
+  fields:
+    about:
+      name: Worüber (ich, haus oder ein Name)
+      selector:
+        text:
+    person:
+      name: Von wem
+      selector:
+        entity:
+          filter:
+            domain: person

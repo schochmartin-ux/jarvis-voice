@@ -1,0 +1,59 @@
+# Diese beiden Skripte machen Jarvis' Gedächtnis für Claude nutzbar.
+# In HA: Einstellungen > Automatisierungen & Szenen > Skripte > Skript hinzufügen > YAML.
+# Danach beide Skripte für den Sprachassistenten freigeben (Einstellungen > Sprachassistenten > Freigegebene Entitäten).
+
+jarvis_merke_dir:
+  alias: Jarvis merke dir
+  description: >-
+    Schlägt vor, sich eine kurze Notiz über eine Vorliebe oder Gewohnheit zu merken
+    (zum Beispiel Lieblingstemperatur, Musikgeschmack, wie jemand etwas nennt). Speichert
+    NICHTS: Die Notiz wird erst gespeichert, wenn die Person danach Ja sagt. Rufe das nur
+    auf, wenn jemand ausdrücklich "merk dir" sagt oder eine dauerhafte Vorliebe nennt.
+    Lies danach den Text im Feld "say" als Rückfrage vor und warte auf die Antwort.
+    Niemals für Gesundheit, Geld, Schule, Beziehungen, Geheimnisse, Türen oder Rechte.
+  mode: single
+  fields:
+    text:
+      name: Notiz
+      description: Kurzer Satz, höchstens 160 Zeichen, zum Beispiel "mag es abends 22 Grad im Zimmer".
+      required: true
+      selector:
+        text:
+    about:
+      name: Worüber
+      description: Leer lassen für den Sprecher selbst, "haus" für das Haus, sonst der Name einer Person.
+      selector:
+        text:
+  sequence:
+    - action: jarvis_voice.remember
+      data:
+        text: "{{ text }}"
+        about: "{{ about | default('', true) }}"
+      response_variable: result
+    - stop: Notiz vorgemerkt
+      response_variable: result
+
+jarvis_vergiss_das:
+  alias: Jarvis vergiss das
+  description: >-
+    Löscht eine oder mehrere Notizen des Sprechers. Mit "match" werden Notizen gelöscht, die
+    diesen Text enthalten, ohne "match" die zuletzt gespeicherte. Rufe das auf, wenn jemand
+    "vergiss das" oder "lösch die Notiz über ..." sagt.
+  mode: single
+  fields:
+    match:
+      name: Suchtext
+      selector:
+        text:
+    about:
+      name: Worüber
+      selector:
+        text:
+  sequence:
+    - action: jarvis_voice.forget_note
+      data:
+        match: "{{ match | default('', true) }}"
+        about: "{{ about | default('', true) }}"
+      response_variable: result
+    - stop: Notizen gelöscht
+      response_variable: result

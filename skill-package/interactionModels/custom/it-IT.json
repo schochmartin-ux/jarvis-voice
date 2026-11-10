@@ -1,0 +1,42 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "assistente di casa",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AssistQueryIntent",
+          "slots": [
+            {
+              "name": "query",
+              "type": "AMAZON.Person"
+            }
+          ],
+          "samples": [
+            "{query}"
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}

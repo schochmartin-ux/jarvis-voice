@@ -1,0 +1,65 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Jarvis Voice",
+        "description": "Lässt Echo-Geräte über einen Alexa-Custom-Skill mit einem Home-Assistant-Assistenten sprechen. Der HTTPS-Endpunkt des Skills ist {endpoint} auf deiner externen URL. Alexa erlaubt etwa 8 Sekunden pro Antwort, langsamere werden auf dem Echo nachgesagt.",
+        "data": {
+          "skill_id": "Skill-ID",
+          "assistant": "Assistent",
+          "launch_sound": "Bereitschaftston",
+          "deadline": "Antwortfrist",
+          "remember": "Zwischen Aufrufen merken",
+          "announce_late": "Späte Antworten auf dem Echo ansagen",
+          "verify_signature": "Amazon-Signatur prüfen"
+        },
+        "data_description": {
+          "skill_id": "Aus der Alexa Developer Console, etwa amzn1.ask.skill.0000. Anfragen für andere Skills werden abgelehnt.",
+          "assistant": "Der Assistent, der antwortet (Einstellungen > Sprachassistenten). Sein Konversationsagent, seine Sprache und \"Befehle bevorzugt lokal verarbeiten\" gelten. Alexa übernimmt die Sprache, Spracherkennung und Sprachausgabe des Assistenten werden nicht genutzt.",
+          "launch_sound": "Wird beim Öffnen des Skills statt einer gesprochenen Begrüßung gespielt. Leer lassen für die gesprochene Begrüßung.",
+          "deadline": "Wie lange gewartet wird, bevor Alexa sagt, dass die Antwort nachkommt. Unter 8 Sekunden bleiben, dem Limit von Alexa.",
+          "remember": "Eine Unterhaltung pro Echo und Sprecher, damit Rückfragen innerhalb von fünf Minuten funktionieren (\"und morgen?\").",
+          "announce_late": "Spricht eine zu späte Antwort auf dem Echo, das gefragt hat. Braucht die Integration Amazon Devices und die Alexa-Geräte-ID als Label am Echo.",
+          "verify_signature": "Prüft, dass Anfragen wirklich von Amazon kommen. Nur zum Debuggen ausschalten, der Endpunkt hat sonst keinen Schutz."
+        }
+      }
+    },
+    "error": {
+      "skill_id_required": "Die Skill-ID ist nötig: Anfragen für andere Skills werden abgelehnt.",
+      "sound_invalid": "Der Ton muss eine soundbank://-URI aus der Alexa-Klangbibliothek oder eine https://-MP3 sein."
+    },
+    "abort": {
+      "single_instance_allowed": "Jarvis Voice ist bereits eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Jarvis Voice",
+        "description": "Der HTTPS-Endpunkt des Skills ist {endpoint} auf deiner externen URL. Änderungen gelten sofort.",
+        "data": {
+          "skill_id": "Skill-ID",
+          "assistant": "Assistent",
+          "launch_sound": "Bereitschaftston",
+          "deadline": "Antwortfrist",
+          "remember": "Zwischen Aufrufen merken",
+          "announce_late": "Späte Antworten auf dem Echo ansagen",
+          "verify_signature": "Amazon-Signatur prüfen"
+        },
+        "data_description": {
+          "skill_id": "Aus der Alexa Developer Console, etwa amzn1.ask.skill.0000. Anfragen für andere Skills werden abgelehnt.",
+          "assistant": "Der Assistent, der antwortet (Einstellungen > Sprachassistenten). Sein Konversationsagent, seine Sprache und \"Befehle bevorzugt lokal verarbeiten\" gelten. Alexa übernimmt die Sprache, Spracherkennung und Sprachausgabe des Assistenten werden nicht genutzt.",
+          "launch_sound": "Wird beim Öffnen des Skills statt einer gesprochenen Begrüßung gespielt. Leer lassen für die gesprochene Begrüßung.",
+          "deadline": "Wie lange gewartet wird, bevor Alexa sagt, dass die Antwort nachkommt. Unter 8 Sekunden bleiben, dem Limit von Alexa.",
+          "remember": "Eine Unterhaltung pro Echo und Sprecher, damit Rückfragen innerhalb von fünf Minuten funktionieren (\"und morgen?\").",
+          "announce_late": "Spricht eine zu späte Antwort auf dem Echo, das gefragt hat. Braucht die Integration Amazon Devices und die Alexa-Geräte-ID als Label am Echo.",
+          "verify_signature": "Prüft, dass Anfragen wirklich von Amazon kommen. Nur zum Debuggen ausschalten, der Endpunkt hat sonst keinen Schutz."
+        }
+      }
+    },
+    "error": {
+      "skill_id_required": "Die Skill-ID ist nötig: Anfragen für andere Skills werden abgelehnt.",
+      "sound_invalid": "Der Ton muss eine soundbank://-URI aus der Alexa-Klangbibliothek oder eine https://-MP3 sein."
+    }
+  }
+}

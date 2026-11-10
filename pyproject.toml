@@ -1,0 +1,22 @@
+[project]
+name = "alexa-assist"
+version = "0.2.0"
+description = "Talk to any Home Assistant assistant from Echo devices through a self-hosted Alexa custom skill"
+requires-python = ">=3.14"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+addopts = "-p no:cacheprovider -q"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+target-version = "py314"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+ignore = ["E501"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["custom_components", "homeassistant", "pytest_homeassistant_custom_component"]
