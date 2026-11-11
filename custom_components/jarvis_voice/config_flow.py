@@ -30,6 +30,7 @@ from .const import (
     CONF_REMEMBER,
     CONF_SKILL_ID,
     CONF_VERIFY_SIGNATURE,
+    CONF_VOICE,
     DEADLINE_RANGE,
     DEFAULT_ASSISTANT,
     DOMAIN,
@@ -40,6 +41,8 @@ from .const import (
     RECOMMENDED_LAUNCH_SOUND,
     RECOMMENDED_REMEMBER,
     RECOMMENDED_VERIFY_SIGNATURE,
+    RECOMMENDED_VOICE,
+    VOICES,
     TITLE,
 )
 
@@ -50,6 +53,7 @@ DEFAULTS: dict[str, Any] = {
     CONF_REMEMBER: RECOMMENDED_REMEMBER,
     CONF_ANNOUNCE_LATE: RECOMMENDED_ANNOUNCE_LATE,
     CONF_VERIFY_SIGNATURE: RECOMMENDED_VERIFY_SIGNATURE,
+    CONF_VOICE: RECOMMENDED_VOICE,
 }
 
 SCHEMA = vol.Schema(
@@ -62,6 +66,9 @@ SCHEMA = vol.Schema(
                 custom_value=True,
                 mode=SelectSelectorMode.DROPDOWN,
             )
+        ),
+        vol.Optional(CONF_VOICE): SelectSelector(
+            SelectSelectorConfig(options=VOICES, custom_value=True, mode=SelectSelectorMode.DROPDOWN)
         ),
         vol.Required(CONF_DEADLINE): NumberSelector(
             NumberSelectorConfig(
@@ -84,6 +91,7 @@ def _validate(user_input: dict[str, Any]) -> tuple[dict[str, Any], dict[str, str
     data = dict(user_input)
     data[CONF_SKILL_ID] = (data.get(CONF_SKILL_ID) or "").strip()
     data[CONF_LAUNCH_SOUND] = (data.get(CONF_LAUNCH_SOUND) or "").strip()
+    data[CONF_VOICE] = (data.get(CONF_VOICE) or "").strip()
     errors: dict[str, str] = {}
     if not data[CONF_SKILL_ID]:
         # The endpoint is open to the internet, so without the skill id the

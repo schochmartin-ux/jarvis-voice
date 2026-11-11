@@ -19,6 +19,7 @@ CONF_DEADLINE = "deadline"
 CONF_ANNOUNCE_LATE = "announce_late"
 CONF_LAUNCH_SOUND = "launch_sound"
 CONF_REMEMBER = "remember"
+CONF_VOICE = "voice"
 
 ENDPOINT = f"/api/{DOMAIN}/alexa"
 
@@ -38,6 +39,11 @@ RECOMMENDED_ANNOUNCE_LATE = True
 # again within Home Assistant's five minute window continues the same thread
 # and "and tomorrow?" knows what it refers to.
 RECOMMENDED_REMEMBER = True
+
+# Alexa speaks German with its own voice unless the SSML names another one. These
+# are the German voices Alexa skills may ask for; empty keeps the Echo default.
+VOICES = ["Hans", "Marlene", "Vicki"]
+RECOMMENDED_VOICE = "Hans"
 
 # Played instead of a spoken greeting when the skill is opened, so the wait
 # before the microphone opens is as short as possible. Copied verbatim from the

@@ -49,6 +49,7 @@ from .const import (
     CONF_DEADLINE,
     CONF_LAUNCH_SOUND,
     CONF_REMEMBER,
+    CONF_VOICE,
     CONF_SKILL_ID,
     CONF_VERIFY_SIGNATURE,
     DOMAIN,
@@ -61,6 +62,7 @@ from .const import (
     RECOMMENDED_DEADLINE,
     RECOMMENDED_LAUNCH_SOUND,
     RECOMMENDED_REMEMBER,
+    RECOMMENDED_VOICE,
     RECOMMENDED_VERIFY_SIGNATURE,
 )
 from .memory import MemoryRegistry
@@ -183,7 +185,29 @@ class AlexaSkillView(HomeAssistantView):
             LOGGER.warning("Rejected a request to the Alexa endpoint: %s", err)
             return self.json_message("Forbidden", HTTPStatus.FORBIDDEN)
 
-        return self.json(await _async_handle(hass, options, message))
+        return self.json(_apply_voice(await _async_handle(hass, options, message), options))
+
+
+@callback
+def _apply_voice(result: dict[str, Any], options: dict[str, Any]) -> dict[str, Any]:
+    """Have plain answers spoken by the configured Alexa voice.
+
+    Sounds and answers that already carry SSML are left alone.
+    """
+    voice = options.get(CONF_VOICE, RECOMMENDED_VOICE)
+    if not voice:
+        return result
+    response = result.get("response", {})
+    targets = [response, response.get("reprompt", {})]
+    for target in targets:
+        speech = target.get("outputSpeech")
+        if speech and speech.get("type") == "PlainText":
+            text = escape(speech["text"])
+            target["outputSpeech"] = {
+                "type": "SSML",
+                "ssml": f'<speak><voice name="{voice}">{text}</voice></speak>',
+            }
+    return result
 
 
 @callback
