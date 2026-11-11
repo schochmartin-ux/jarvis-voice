@@ -227,6 +227,7 @@ async def _async_handle(
 
     intent = request.get("intent", {})
     name = intent.get("name")
+    spoken_answer = ""
 
     if name in ("AMAZON.YesIntent", "AMAZON.NoIntent"):
         # The answer to "Soll ich mir das merken?". Without a note waiting, a
@@ -234,8 +235,9 @@ async def _async_handle(
         reply = await _async_answer_pending(hass, message, yes=name == "AMAZON.YesIntent")
         if reply:
             return _response(reply)
-        if name == "AMAZON.YesIntent":
-            return _response(_phrase(locale, "nothing_pending"))
+        # No note is waiting, so this answers the assistant's own question
+        # ("Soll ich sie schliessen?"). It goes to the assistant as plain text.
+        spoken_answer = "Ja" if name == "AMAZON.YesIntent" else "Nein"
 
     if name in STOP_INTENTS:
         return _response(_phrase(locale, "goodbye"))
@@ -246,7 +248,7 @@ async def _async_handle(
     if name == "AMAZON.NavigateHomeIntent":
         return _response(None)
 
-    query = ""
+    query = spoken_answer
     if name == QUERY_INTENT:
         query = (intent.get("slots", {}).get(QUERY_SLOT, {}).get("value") or "").strip()
 
@@ -270,6 +272,10 @@ async def _async_handle(
         # The assistant just proposed a note: keep the microphone open for the answer.
         question = _phrase(locale, "confirm_reprompt")
         return _response(speech, end_session=False, reprompt=question)
+    if speech.rstrip().endswith("?"):
+        # The assistant asked something: keep the microphone open for the answer,
+        # also for the confirmation before a door opens.
+        return _response(speech, end_session=False, reprompt=speech)
     return _response(speech)
 
 
