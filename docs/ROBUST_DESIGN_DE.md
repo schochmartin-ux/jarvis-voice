@@ -59,3 +59,32 @@ oder geänderte Automation. Erweitern, sobald wir etwas Neues lernen.
 - **Namensschema konsistent im Bereich halten** (z. B. „Spot EG Flur 1“, „TH UG 1“).
 - **Beschreibung in jeder Automation:** Zweck, Verhalten und vorherige Config-Hashes dokumentieren.
 - **Nach jeder Änderung testen** (Taster drücken, Bewegung auslösen, Traces prüfen).
+
+## 7. Namenskonvention
+
+Ein Schema für alles: Geräte, Entities, Gruppen, Automationen, Skripte und Helper. Ziel: Man erkennt am Namen, was
+es ist und wo es ist, und die Entity-ID passt zum Namen.
+
+### Grundregeln
+
+- **Deutsch, mit Umlauten im Anzeigenamen.** Die Entity-ID erzeugt Home Assistant daraus (ü → u, ß → ss); nicht von
+  Hand „kueche“ schreiben.
+- **Keine Hersteller-, Modell- oder Standardnamen** im Namen oder in der Entity-ID (nicht „MOES Matter Light“,
+  `h61e5`, `moes_matter_light_7`).
+- **Feste Abkürzungen, sonst ausschreiben:** EG, OG, UG für Geschosse, TH für Treppenhaus. Keine weiteren Kürzel.
+- **Reihenfolge: Ort vor Geschoss**, wie bei den Bereichen („Treppenhaus UG“ → „TH UG“, „Flur EG“).
+- **Nummern lückenlos ab 1**, ohne führende Null, mit Leerzeichen getrennt; keine Leerzeichen am Ende.
+- **Jedes Gerät hat einen Bereich.** Automationen, Skripte und Helper bekommen ebenfalls einen Bereich oder ein Label.
+- **Entity-ID folgt dem Namen:** Wird ein Name geändert, wird auch die Entity-ID angepasst (Verweise vorher prüfen wie
+  in Abschnitt 5). Keine Reste wie `_2` aus Neu-Kopplungen.
+
+### Schema nach Typ
+
+- **Leuchte:** `<Typ> <Position> <Nr>`, z. B. „Spot Küche 1“, „Spot Insel 2“, „Lampe Sofa“, „Nachttisch links“. Typ
+  aus fester Liste: Spot, Lampe, LED, Leuchte, Wandlicht. Nummer nur, wenn es mehrere gibt.
+- **Gruppe:** Mehrzahl des Typs plus Position, z. B. „Spots Küche“ mit den Mitgliedern „Spot Küche 1–6“.
+- **Automation:** `<Bereich oder Thema>: <was passiert>`, z. B. „TH UG: Licht bei Bewegung“, „Büro: Taster Licht“,
+  „Urlaubsmodus: Licht abends“, „Hitzeschutz EG Gartenseite: beschatten“.
+- **Skript:** wie Automation, mit einem Verb, z. B. „Jalousien: alle schließen“.
+- **Helper:** gleiches Präfix wie die Automation, die ihn nutzt, z. B. „TH UG Bewegung Sperre“, „Büro Dimmen aufwärts“.
+- **Modus-Schalter:** nur der Modusname, z. B. „Party“, „Urlaubsmodus“.
