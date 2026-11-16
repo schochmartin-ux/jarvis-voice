@@ -56,35 +56,57 @@ oder geänderte Automation. Erweitern, sobald wir etwas Neues lernen.
 
 - **Gerätename = Anzeigename**, Entity-Name folgt dem Gerät (sonst entstehen Dopplungen wie „TH UG 1 TH UG 1“).
 - **Raum am Gerät setzen**, nicht an der Entity.
-- **Namensschema konsistent im Bereich halten** (z. B. „Spot EG Flur 1“, „TH UG 1“).
+- **Namensschema konsistent im Bereich halten** (z. B. „Spot Flur EG 1“, „Spot Küche 1“), Details in Abschnitt 7.
 - **Beschreibung in jeder Automation:** Zweck, Verhalten und vorherige Config-Hashes dokumentieren.
 - **Nach jeder Änderung testen** (Taster drücken, Bewegung auslösen, Traces prüfen).
 
 ## 7. Namenskonvention
 
-Ein Schema für alles: Geräte, Entities, Gruppen, Automationen, Skripte und Helper. Ziel: Man erkennt am Namen, was
-es ist und wo es ist, und die Entity-ID passt zum Namen.
+Gilt für Geräte, Entities, Gruppen, Automationen, Skripte und Helper.
+
+### Warum so
+
+- **Alexa braucht eindeutige Namen.** Die Leuchten sind über Home Assistant Cloud an Alexa freigegeben. Alexa kennt
+  die Bereiche aus Home Assistant nicht. Deshalb bleibt der Ort im Namen, und jeder Name kommt im ganzen Haus nur
+  einmal vor.
+- **Alexa erkennt Geräte an der Entity-ID.** Eine neue Entity-ID ist für Alexa ein neues Gerät. Routinen, Gruppen und
+  Raumzuordnungen in der Alexa-App hängen dann am alten, toten Gerät.
+- **Dashboards und Automationen verweisen auf Entity-IDs.** Home Assistant passt diese Verweise beim Umbenennen nicht
+  an. Ein geänderter Anzeigename stört sie dagegen nicht.
 
 ### Grundregeln
 
-- **Deutsch, mit Umlauten im Anzeigenamen.** Die Entity-ID erzeugt Home Assistant daraus (ü → u, ß → ss); nicht von
-  Hand „kueche“ schreiben.
-- **Keine Hersteller-, Modell- oder Standardnamen** im Namen oder in der Entity-ID (nicht „MOES Matter Light“,
-  `h61e5`, `moes_matter_light_7`).
-- **Feste Abkürzungen, sonst ausschreiben:** EG, OG, UG für Geschosse, TH für Treppenhaus. Keine weiteren Kürzel.
-- **Reihenfolge: Ort vor Geschoss**, wie bei den Bereichen („Treppenhaus UG“ → „TH UG“, „Flur EG“).
-- **Nummern lückenlos ab 1**, ohne führende Null, mit Leerzeichen getrennt; keine Leerzeichen am Ende.
-- **Jedes Gerät hat einen Bereich.** Automationen, Skripte und Helper bekommen ebenfalls einen Bereich oder ein Label.
-- **Entity-ID folgt dem Namen:** Wird ein Name geändert, wird auch die Entity-ID angepasst (Verweise vorher prüfen wie
-  in Abschnitt 5). Keine Reste wie `_2` aus Neu-Kopplungen.
+- **Gerätename = Anzeigename**, der Entity-Name folgt dem Gerät.
+- **Im ganzen Haus eindeutig.**
+- **Deutsch, mit Umlauten**, keine Hersteller- oder Modellnamen (nicht „MOES Matter Light“, „H61E5“).
+- **Keine Abkürzungen außer EG, OG, UG.** Kein „TH“: Sprachassistenten erkennen und sprechen es schlecht.
+- **Ort vor Geschoss**, wie bei den Bereichen: „Flur EG“, nicht „EG Flur“.
+- **Die Nummer bezeichnet eine feste Position** (z. B. von der Tür aus im Uhrzeigersinn) und bleibt beim Gerätetausch
+  gleich. Keine Leerzeichen am Ende.
+- **Jedes Gerät hat einen Bereich.**
 
 ### Schema nach Typ
 
-- **Leuchte:** `<Typ> <Position> <Nr>`, z. B. „Spot Küche 1“, „Spot Insel 2“, „Lampe Sofa“, „Nachttisch links“. Typ
-  aus fester Liste: Spot, Lampe, LED, Leuchte, Wandlicht. Nummer nur, wenn es mehrere gibt.
-- **Gruppe:** Mehrzahl des Typs plus Position, z. B. „Spots Küche“ mit den Mitgliedern „Spot Küche 1–6“.
-- **Automation:** `<Bereich oder Thema>: <was passiert>`, z. B. „TH UG: Licht bei Bewegung“, „Büro: Taster Licht“,
-  „Urlaubsmodus: Licht abends“, „Hitzeschutz EG Gartenseite: beschatten“.
+- **Leuchte:** `<Typ> <Ort> <Nr>`, z. B. „Spot Küche 1“, „Spot Insel 2“, „Spot Flur EG 3“, „Lampe Sofa“, „LED Kamin“.
+  Typ aus: Spot, Lampe, LED, Leuchte, Wandlicht, Backlight. Nummer nur, wenn es mehrere gibt.
+- **Gruppe:** Mehrzahl plus Ort, z. B. „Spots Küche“, „Spots Flur EG“.
+- **Automation:** `<Bereich oder Thema>: <was passiert>`, Bereich ausgeschrieben, z. B. „Treppenhaus UG: Licht bei
+  Bewegung“, „Urlaubsmodus: Licht abends“.
 - **Skript:** wie Automation, mit einem Verb, z. B. „Jalousien: alle schließen“.
-- **Helper:** gleiches Präfix wie die Automation, die ihn nutzt, z. B. „TH UG Bewegung Sperre“, „Büro Dimmen aufwärts“.
+- **Helper:** gleiches Präfix wie die Automation, die ihn nutzt, z. B. „Treppenhaus UG Bewegung Sperre“.
 - **Modus-Schalter:** nur der Modusname, z. B. „Party“, „Urlaubsmodus“.
+
+### Entity-IDs
+
+- **Bleiben stabil.** Der Anzeigename darf sich ändern, die Entity-ID nicht.
+- **Umbenannt wird nur, was nichtssagend oder falsch ist** (`moes_matter_light_7`, `h61e5`, Reste wie `_2`), und
+  dann gebündelt:
+  1. Verweise in Automationen, Skripten, Szenen, UI-Gruppen und Dashboards suchen (wie in Abschnitt 5).
+  2. Entity-ID ändern und alle Verweise umstellen; danach nach der alten ID suchen, es dürfen keine Treffer bleiben.
+  3. In der Alexa-App Geräte neu suchen, die alten Geräte löschen, Gruppen und Routinen prüfen.
+- **Neue IDs aus dem Namen**, z. B. `light.spot_buro_3`.
+
+### Sprache
+
+- Für natürliche Formulierungen („Kellertreppe“, „Licht unten im Flur“) Aliase in Home Assistant setzen. Sie gelten
+  für Assist und Jarvis. Ob Alexa sie übernimmt, ist nicht geprüft; für Alexa zählt der Name.
